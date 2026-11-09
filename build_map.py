@@ -12,6 +12,8 @@ CSV_PATH = os.path.join(BASE_DIR, "data", "accidents_cleaned.csv")
 GPKG_PATH = os.path.join(BASE_DIR, "data", "roads.gpkg")
 OUT_DIR = os.path.join(BASE_DIR, "images")
 
+# e = iface.mapCanvas().extent()
+# print(e.xMinimum(), e.yMinimum(), e.xMaximum(), e.yMaximum())
 # name: (west, south, east, north)
 AREAS = {
     "estonia": (358338.9516526179, 6370135.354926471, 745768.1126428994, 6623499.851976518),
