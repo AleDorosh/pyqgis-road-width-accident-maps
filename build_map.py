@@ -7,7 +7,7 @@ from qgis.core import (
 from qgis.PyQt.QtCore import QSize, QUrl
 from qgis.PyQt.QtGui import QColor
 
-BASE_DIR = os.path.expanduser("/home/aleksandra/dev/projects/road_accidents/qgis_project")
+BASE_DIR = os.path.expanduser("~/path/to/pyqgis-road-width-accident-maps")
 CSV_PATH = os.path.join(BASE_DIR, "data", "accidents_cleaned.csv")
 GPKG_PATH = os.path.join(BASE_DIR, "data", "roads.gpkg")
 OUT_DIR = os.path.join(BASE_DIR, "images")
