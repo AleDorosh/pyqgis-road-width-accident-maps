@@ -1,3 +1,17 @@
+"""Build maps of casualty accidents and road width in urban Estonia.
+
+Loads the accident points from a CSV file and the roads from a GeoPackage
+file, styles both layers and exports one PNG map for each area in AREAS.
+
+Before running:
+    1. Set BASE_DIR to the folder where this repository was cloned.
+    2. Run download_roads.py once to create data/roads.gpkg.
+    3. Set the map areas in AREAS (west, south, east, north in EPSG:3301).
+
+How to run: in QGIS open Plugins > Python Console > Show Editor, open this
+file and press the green Run button. The maps are saved in the images folder.
+"""
+
 import os
 from qgis.core import (
     QgsVectorLayer, QgsSymbol, QgsMarkerSymbol, QgsRendererRange,
@@ -12,8 +26,10 @@ CSV_PATH = os.path.join(BASE_DIR, "data", "accidents_cleaned.csv")
 GPKG_PATH = os.path.join(BASE_DIR, "data", "roads.gpkg")
 OUT_DIR = os.path.join(BASE_DIR, "images")
 
+# Zoom the main QGIS window to the area you want (Estonia, Tartu or Tallinn), then run this in the Python console or editor:
 # e = iface.mapCanvas().extent()
 # print(e.xMinimum(), e.yMinimum(), e.xMaximum(), e.yMaximum())
+
 # name: (west, south, east, north)
 AREAS = {
     "estonia": (358338.9516526179, 6370135.354926471, 745768.1126428994, 6623499.851976518),
@@ -31,9 +47,19 @@ ROAD_CLASSES = [
 ]
 
 
-# ---------- Loading ----------
+
 def load_points(csv_path):
-    # X is the east value (y_coord), Y is the north value (x_coord)
+    """Load the accident CSV as a point layer.
+
+    In Estonian coordinates X is north and Y is east, so the QGIS X field is
+    set to y_coord and the QGIS Y field to x_coord.
+
+    Args:
+        csv_path: Path to accidents_cleaned.csv.
+
+    Returns:
+        A QgsVectorLayer with the accident points (EPSG:3301).
+    """
     uri = (QUrl.fromLocalFile(csv_path).toString()
            + "?type=csv&delimiter=,&detectTypes=yes"
            + "&xField=y_coord&yField=x_coord&crs=EPSG:3301")
@@ -41,11 +67,26 @@ def load_points(csv_path):
 
 
 def load_roads(gpkg_path):
+    """Load the road layer from the local GeoPackage file.
+
+    Args:
+        gpkg_path: Path to roads.gpkg (created by download_roads.py).
+
+    Returns:
+        A QgsVectorLayer with the road lines.
+    """
     return QgsVectorLayer(gpkg_path + "|layername=roads", "roads", "ogr")
 
 
-# ---------- Styling ----------
+
 def style_roads(roads):
+    """Style roads as grey lines whose thickness grows with road width.
+
+    Uses the width classes in ROAD_CLASSES and the 'width' field.
+
+    Args:
+        roads: The road layer to style (changed in place).
+    """
     ranges = []
     for lower, upper, label, line_width in ROAD_CLASSES:
         symbol = QgsSymbol.defaultSymbol(roads.geometryType())
@@ -56,6 +97,11 @@ def style_roads(roads):
 
 
 def style_points(points):
+    """Style accidents as small semi-transparent red points.
+
+    Args:
+        points: The accident layer to style (changed in place).
+    """
     symbol = QgsMarkerSymbol.createSimple({
         "name": "circle",
         "color": "255,0,51,110",
@@ -66,9 +112,19 @@ def style_points(points):
     points.setRenderer(QgsSingleSymbolRenderer(symbol))
 
 
-# ---------- Exporting ----------
+
 def fit_aspect(extent, ratio):
-    # Grow the area until width / height equals ratio, keeping the centre
+    """Grow an area until its width divided by its height equals ratio.
+
+    The centre stays the same. Used to give the city maps the same shape.
+
+    Args:
+        extent: A QgsRectangle with the wanted area.
+        ratio: Wanted width divided by height, for example 1.4.
+
+    Returns:
+        A new QgsRectangle with the adjusted area.
+    """
     c = extent.center()
     w, h = extent.width(), extent.height()
     if w / h < ratio:
@@ -79,8 +135,17 @@ def fit_aspect(extent, ratio):
 
 
 def export_map(layers, extent, out_file, width_px=3000):
+    """Render layers inside an area and save the result as a PNG file.
+
+    Args:
+        layers: List of layers to draw. The first layer is drawn on top.
+        extent: A QgsRectangle with the area to draw.
+        out_file: Path of the PNG file to write.
+        width_px: Width of the image in pixels. The height follows the
+            shape of the area.
+    """
     settings = QgsMapSettings()
-    settings.setLayers(layers)               # first in the list is drawn on top
+    settings.setLayers(layers)               
     settings.setBackgroundColor(QColor("white"))
     settings.setDestinationCrs(layers[0].crs())
     settings.setExtent(extent)
@@ -94,7 +159,7 @@ def export_map(layers, extent, out_file, width_px=3000):
     print("Saved:", out_file)
 
 
-# ---------- Run ----------
+
 points = load_points(CSV_PATH)
 roads = load_roads(GPKG_PATH)
 
