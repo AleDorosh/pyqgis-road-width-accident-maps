@@ -4,7 +4,7 @@ import os
 roads = QgsProject.instance().mapLayersByName(
     "TN_transportetak:TN.RoadTransportNetwork.Roadwidth")[0]
 
-gpkg = os.path.expanduser("~/pyqgis_maps/roads.gpkg")
+gpkg = os.path.expanduser("~/path/to/pyqgis-road-width-accident-maps")
 os.makedirs(os.path.dirname(gpkg), exist_ok=True)
 
 # "native:savefeatures" is the same tool as Export > Save Features As
