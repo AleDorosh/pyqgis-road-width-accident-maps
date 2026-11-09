@@ -1,6 +1,6 @@
 import os
 
-BASE_DIR = os.path.expanduser("/home/aleksandra/dev/projects/road_accidents/qgis_project/scratch")
+BASE_DIR = os.path.expanduser("~/path/to/pyqgis-road-width-accident-maps")
 GPKG_PATH = os.path.join(BASE_DIR, "data", "roads.gpkg")
 OVERWRITE = False   # True = download again even if the file exists
 
