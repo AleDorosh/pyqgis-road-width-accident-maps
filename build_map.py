@@ -7,10 +7,10 @@ from qgis.core import (
 from qgis.PyQt.QtCore import QSize, QUrl
 from qgis.PyQt.QtGui import QColor
 
-# ---------- Settings: change these ----------
-CSV_PATH = "/home/aleksandra/dev/projects/road_accidents/DCS_project/data/accidents_cleaned.csv"
-GPKG_PATH = os.path.expanduser("/home/aleksandra/dev/projects/road_accidents/qgis_project/pyqgis_maps/roads.gpkg")
-OUT_DIR = os.path.expanduser("/home/aleksandra/dev/projects/road_accidents/qgis_project/pyqgis_maps")
+BASE_DIR = os.path.expanduser("/home/aleksandra/dev/projects/road_accidents/qgis_project")
+CSV_PATH = os.path.join(BASE_DIR, "data", "accidents_cleaned.csv")
+GPKG_PATH = os.path.join(BASE_DIR, "data", "roads.gpkg")
+OUT_DIR = os.path.join(BASE_DIR, "images")
 
 # name: (west, south, east, north)
 AREAS = {
