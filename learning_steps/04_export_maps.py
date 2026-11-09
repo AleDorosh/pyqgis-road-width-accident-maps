@@ -1,3 +1,10 @@
+"""Export PNG maps for Estonia, Tartu and Tallinn from the open QGIS project.
+
+Uses layers that are already styled in the project. Fill in AREAS (west,
+south, east, north in EPSG:3301) before running. The maps are saved in the
+folder pyqgis_maps in the home folder.
+"""
+
 import os
 from qgis.core import QgsMapSettings, QgsMapRendererParallelJob, QgsRectangle
 from qgis.PyQt.QtCore import QSize
