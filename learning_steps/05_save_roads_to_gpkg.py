@@ -1,3 +1,8 @@
+"""Save the WFS road layer from the open QGIS project to a GeoPackage.
+
+First version of the download step. Replaced by download_roads.py, which
+creates the WFS layer in code and needs no open project.
+"""
 
 import os
 
