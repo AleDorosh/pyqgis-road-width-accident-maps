@@ -17,6 +17,9 @@ points = QgsProject.instance().mapLayersByName("accidents_cleaned")[0]
 out_dir = os.path.expanduser("~/pyqgis_maps")
 os.makedirs(out_dir, exist_ok=True)
 
+# e = iface.mapCanvas().extent()
+# print(e.xMinimum(), e.yMinimum(), e.xMaximum(), e.yMaximum())
+
 # name: (west, south, east, north) -- paste your own numbers
 areas = {
     "estonia": (358338.9516526179, 6370135.354926471, 745768.1126428994, 6623499.851976518),
