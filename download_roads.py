@@ -1,3 +1,17 @@
+"""Download the Estonian road width layer and save it as a GeoPackage.
+
+Connects to the WFS service of Maa- ja Ruumiamet, downloads all roads once
+and saves them to data/roads.gpkg. Nothing is downloaded if the file already
+exists, unless OVERWRITE is True.
+
+The download takes several minutes and the file is large, so roads.gpkg is
+excluded from the repository in .gitignore.
+
+Before running: set BASE_DIR to the folder where this repository was cloned.
+How to run: in QGIS open Plugins > Python Console > Show Editor, open this
+file and press the green Run button.
+"""
+
 import os
 
 BASE_DIR = os.path.expanduser("~/path/to/pyqgis-road-width-accident-maps")
