@@ -1,0 +1,4 @@
+*.gpkg
+*.qgz
+scratch/
+
