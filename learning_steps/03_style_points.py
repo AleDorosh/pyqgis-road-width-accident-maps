@@ -1,3 +1,11 @@
+"""Style the accident points in code.
+
+Draws small semi-transparent red points with a thin dark red outline.
+Colours are written as 'red,green,blue,opacity', each from 0 to 255.
+
+Needs the layer 'accidents_cleaned' in the open QGIS project.
+"""
+
 points = QgsProject.instance().mapLayersByName("accidents_cleaned")[0]
 
 # A simple round marker. Colours are written as "red,green,blue,alpha" (0-255).
