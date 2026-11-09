@@ -1,3 +1,12 @@
+"""Style the road layer by width class, in code instead of by hand.
+
+Applies a graduated renderer on the 'width' field with the same classes as
+the SQL analysis (up to 5 m, 6-8 m, 9-11 m, 12-14 m, 15+ m). Wider roads get
+thicker lines.
+
+Needs the WFS road layer in the open QGIS project.
+"""
+
 roads = QgsProject.instance().mapLayersByName(
     "TN_transportetak:TN.RoadTransportNetwork.Roadwidth")[0]
 
